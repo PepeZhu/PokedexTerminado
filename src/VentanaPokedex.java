@@ -22,7 +22,7 @@ import javax.imageio.ImageIO;
  * @author xp
  */
 public class VentanaPokedex extends javax.swing.JFrame {
-    
+    //Añade buffer de imagen
     private BufferedImage buffer;
     //imagen de pokemon
     private Image imagenPokemons;
@@ -48,13 +48,17 @@ public class VentanaPokedex extends javax.swing.JFrame {
      * Creates new form VentanaPokedex
      */
     private void dibujaElPokemonQueEstaEnLaPosicion (int posicion){
-       
+       //alto del pokemon
         int fila = posicion / 31;
+        //ancho del pokemon
         int columna = posicion % 31;
         Graphics2D g2 = (Graphics2D) buffer.getGraphics();
         //borro lo que hubiera
+        //hacemos para que jpanel1 sea color negro
         g2.setColor(Color.black);
+        // rellena el panel1
         g2.fillRect(0, 0, alto, ancho);
+        //añade imagen de pokemon en jpanel1
         g2.drawImage(imagenPokemons,
                 0,
                 0,
@@ -66,14 +70,16 @@ public class VentanaPokedex extends javax.swing.JFrame {
                 96*fila + 96,
                 null);
        
-        
+        //volve a pintar
         repaint();
+        // para que  funcione el metodo escribe datos
         escribeDatos();
     }
     
     private void escribeDatos(){
         Pokemon p = listaPokemons.get(String.valueOf(contador+1));
         if (p != null){
+            //Añadimos el string para que el integer transforme al  String
             String alto = Integer.toString(p.height);
             String peso = Integer.toString(p.weight);
             String experiencia = Integer.toString(p.base_experience);
@@ -98,21 +104,25 @@ public class VentanaPokedex extends javax.swing.JFrame {
     @Override
     public void paint(Graphics g){
         super.paintComponents(g);
+         //a continuacion apunta al jPanel
         Graphics2D g2 = (Graphics2D) jPanel1.getGraphics();
+        //pinta el buffer sobre el jpanel
         g2.drawImage(buffer, 0, 0,alto,ancho, null);
        
     }
     
     public VentanaPokedex() {
         initComponents();
+        //conexion al foto de black-white
         try {
             imagenPokemons = ImageIO.read(getClass().getResource("black-white.png"));
         } catch (IOException ex) {
             Logger.getLogger(VentanaPokedex.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        //enlazo el buffer al jPanel
         buffer =(BufferedImage) jPanel1.createImage(ancho,alto);
-     
+      //inicializa el buffer 
         Graphics2D g2 = buffer.createGraphics();
         
         
@@ -136,14 +146,13 @@ public class VentanaPokedex extends javax.swing.JFrame {
                 p.height = resultadoConsulta.getInt(10);
                 p.weight = resultadoConsulta.getInt(11);
                 p.base_experience = resultadoConsulta.getInt(18);
-                
-                
                 listaPokemons.put(resultadoConsulta.getString(1), p);
             }
         }
         catch (Exception e){
         }
         //////////////////////////////////////////////
+        //dibuja el pokemon desde la posicion 0 
         dibujaElPokemonQueEstaEnLaPosicion(0);
         
     }
@@ -444,6 +453,7 @@ public class VentanaPokedex extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MousePressed
+        //sirve para que cuando esta en el pokemon 0 no pase al -1,y se queda alli
         contador--;
         if (contador < 0) {contador = 0;}
         dibujaElPokemonQueEstaEnLaPosicion(contador);
@@ -451,6 +461,7 @@ public class VentanaPokedex extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1MousePressed
 
     private void jButton2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MousePressed
+       //sirve para que cuando llega al final ,vuelva al principio
         contador++;
         if (contador > 507) {contador = 0;}
         dibujaElPokemonQueEstaEnLaPosicion(contador);
