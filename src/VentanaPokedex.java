@@ -83,6 +83,7 @@ public class VentanaPokedex extends javax.swing.JFrame {
             String alto = Integer.toString(p.height);
             String peso = Integer.toString(p.weight);
             String experiencia = Integer.toString(p.base_experience);
+            //para que coja la imformacion de la BBDD en cada campo
             jLabel1.setText(p.nombre);
              jLabel2.setText(p.species);
              jLabel3.setText(alto);
